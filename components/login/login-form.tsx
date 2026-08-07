@@ -9,7 +9,7 @@ import { PasswordField } from "@/components/login/password-field";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { login, type LoginRole } from "@/out/auth";
+import { login, type LoginRole } from "@/data/auth";
 
 export function LoginForm() {
   const [role, setRole] = useState<LoginRole | null>(null);

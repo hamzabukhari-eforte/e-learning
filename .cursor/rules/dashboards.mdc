@@ -8,12 +8,12 @@ alwaysApply: false
 
 - Use **recharts** for all charts and graphs (Line, Bar, Area, Pie, etc.).
 - Chart UI lives in `components/` (≤ 100 lines each); pages only import those chart components.
-- Data for charts comes from `out/` via the page, passed as props — charts do not fetch.
+- Data for charts comes from `data/` via the page, passed as props — charts do not fetch.
 
 ```tsx
 // ✅
 import { EnrollmentChart } from "@/components/dashboard/enrollment-chart";
-import { getEnrollmentStats } from "@/out/dashboard";
+import { getEnrollmentStats } from "@/data/dashboard";
 
 const stats = await getEnrollmentStats();
 return <EnrollmentChart data={stats} />;

@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import type { LoginRole } from "@/out/auth";
+import type { LoginRole } from "@/data/auth";
 
 const ROLES: { value: LoginRole; label: string }[] = [
   { value: "admin", label: "Admin" },

@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import {
   sendPasswordResetCode,
   verifyPasswordResetCode,
-} from "@/out/auth";
+} from "@/data/auth";
 
 export function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
