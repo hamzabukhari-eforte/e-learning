@@ -1,0 +1,20 @@
+---
+description: Dashboard charts with Recharts
+globs: "**/dashboard/**/*.{tsx,ts}"
+alwaysApply: false
+---
+
+# Dashboards & charts
+
+- Use **recharts** for all charts and graphs (Line, Bar, Area, Pie, etc.).
+- Chart UI lives in `components/` (≤ 100 lines each); pages only import those chart components.
+- Data for charts comes from `out/` via the page, passed as props — charts do not fetch.
+
+```tsx
+// ✅
+import { EnrollmentChart } from "@/components/dashboard/enrollment-chart";
+import { getEnrollmentStats } from "@/out/dashboard";
+
+const stats = await getEnrollmentStats();
+return <EnrollmentChart data={stats} />;
+```

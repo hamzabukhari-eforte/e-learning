@@ -1,0 +1,41 @@
+---
+description: Component-based architecture, pages, and out/ data layer
+alwaysApply: true
+---
+
+# Architecture
+
+## Component-based work
+
+- Build UI as small, reusable components under `components/`.
+- Pages (`app/**/page.tsx`) only compose/import components — no large inline UI, charts, or forms in pages.
+- Pages may import from `components/` and `out/` only (plus Next.js/React primitives).
+
+## Data layer (`out/`)
+
+- All API fetching and data access lives in `out/` (e.g. `out/courses.ts`, `out/dashboard.ts`).
+- `out/` modules only fetch/transform API data and export typed helpers — no JSX.
+- Pages call `out/` to load data, then pass results as props to components.
+- Components must not call `fetch` or talk to APIs directly.
+
+```tsx
+// ✅ page.tsx
+import { getCourses } from "@/out/courses";
+import { CourseList } from "@/components/courses/course-list";
+
+export default async function CoursesPage() {
+  const courses = await getCourses();
+  return <CourseList courses={courses} />;
+}
+
+// ❌ page with inline fetch + big markup
+// ❌ component that fetch()es its own data
+```
+
+## Folder sketch
+
+```
+app/           # routes/pages only — thin composition
+components/    # UI building blocks
+out/           # API fetch + data helpers only
+```

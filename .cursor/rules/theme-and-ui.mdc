@@ -1,0 +1,44 @@
+---
+description: Theme colors, Tailwind, shadcn, icons, motion, interactions
+globs: **/*.{tsx,ts,css}
+alwaysApply: false
+---
+
+# Theme & UI stack
+
+## Colors
+
+| Token | Hex | Use |
+| --- | --- | --- |
+| primary-blue | `#042954` | Sidebar background; solid button bg; outline button text/border |
+| primary-yellow | `#FFA901` | Icons, accents, highlights |
+| text | `#FFFFFF` / `#000000` | White on dark/blue; black on light surfaces |
+
+Prefer these hex values (or matching CSS variables) consistently. Do not invent alternate brand blues/yellows.
+
+### Button variants
+
+1. **Solid** — `bg-[#042954]` + white text
+2. **Outline** — white bg + `text-[#042954]` + `border border-[#042954]`
+
+All buttons use a fixed height of **40px** (`h-10`). Do not use taller/shorter button sizes.
+
+### Form fields
+
+All text inputs, selects, and similar form fields use a fixed height of **44px** (`h-11`). Keep field heights consistent across the app.
+
+## Styling
+
+- Use **Tailwind CSS utility classes inline** in JSX (`className="..."`).
+- Do **not** add custom CSS modules, styled-components, or separate stylesheet files for component styles (beyond global theme tokens in `app/globals.css` if needed).
+- Use **shadcn/ui** for base primitives (Button, Dialog, Input, etc.); wrap/compose them in `components/`.
+
+## Libraries
+
+- Icons: **react-icons** (prefer yellow `#FFA901` for brand icons where appropriate).
+- Motion: **framer-motion** for page/section/component transitions and enter/exit animations.
+- Charts (dashboards): **recharts** only — do not use other chart libraries.
+
+## Interactions
+
+- Every clickable/actionable control gets `cursor-pointer`.

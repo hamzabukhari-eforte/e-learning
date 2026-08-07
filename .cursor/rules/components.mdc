@@ -1,0 +1,33 @@
+---
+description: Component size and refactoring limits
+globs: components/**/*.{tsx,ts,jsx,js}
+alwaysApply: false
+---
+
+# Components
+
+- Keep each component file ≤ **100 lines**. If larger, split into subcomponents or extract hooks/helpers.
+- One primary responsibility per file; prefer composition over monolithic components.
+- Colocate related pieces: `components/sidebar/sidebar.tsx`, `sidebar-item.tsx`, etc.
+- Interactive elements (`button`, `a`, `role="button"`, clickable rows) must include Tailwind `cursor-pointer`.
+
+```tsx
+// ✅ solid (height 40px / h-10)
+<button
+  type="button"
+  className="cursor-pointer h-10 bg-[#042954] text-white"
+>
+  Save
+</button>
+
+// ✅ outline (white bg, blue text + border, height 40px)
+<button
+  type="button"
+  className="cursor-pointer h-10 border border-[#042954] bg-white text-[#042954]"
+>
+  Cancel
+</button>
+
+// ❌ missing cursor-pointer on actionable control
+<button type="button" className="bg-[#042954] text-white">Save</button>
+```
