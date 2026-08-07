@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { LoginAsSelect } from "@/components/login/login-as-select";
 import { UserIdField } from "@/components/login/user-id-field";
@@ -12,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { login, type LoginRole } from "@/data/auth";
 
 export function LoginForm() {
+  const router = useRouter();
   const [role, setRole] = useState<LoginRole | null>(null);
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
@@ -25,7 +27,11 @@ export function LoginForm() {
     setError(null);
     const result = await login({ role, userId, password, rememberMe });
     setPending(false);
-    if (!result.ok) setError(result.message);
+    if (!result.ok) {
+      setError(result.message);
+      return;
+    }
+    router.push("/dashboard");
   }
 
   return (
