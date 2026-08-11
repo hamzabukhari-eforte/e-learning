@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaChevronDown } from "react-icons/fa6";
@@ -17,12 +17,16 @@ type SidebarItemProps = {
 
 export function SidebarItem({ item, collapsed }: SidebarItemProps) {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
   const Icon = NAV_ICONS[item.icon];
   const hasChildren = Boolean(item.children?.length);
-  const active =
-    item.href === pathname ||
-    item.children?.some((child) => pathname.startsWith(child.href));
+  const isChildActive =
+    item.children?.some((child) => pathname.startsWith(child.href)) ?? false;
+  const active = item.href === pathname || isChildActive;
+  const [open, setOpen] = useState(isChildActive);
+
+  useEffect(() => {
+    if (isChildActive) setOpen(true);
+  }, [isChildActive]);
 
   if (item.href && !hasChildren) {
     return (
