@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { FaBars, FaXmark } from "react-icons/fa6";
+import { LuMenu, LuX } from "react-icons/lu";
 import { SidebarItem } from "@/components/layout/sidebar-item";
 import type { NavItem } from "@/data/navigation";
 import { cn } from "@/lib/utils";
@@ -30,9 +30,9 @@ export function Sidebar({ items, collapsed, onToggle }: SidebarProps) {
           <Image
             src="/assets/images/SES-logo.png"
             alt="SES — A Supernet Company"
-            width={160}
-            height={56}
-            className="h-12 w-auto object-contain"
+            width={100}
+            height={100}
+            className="h-14 w-auto object-contain"
             priority
           />
         ) : null}
@@ -43,9 +43,9 @@ export function Sidebar({ items, collapsed, onToggle }: SidebarProps) {
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           {collapsed ? (
-            <FaXmark className="size-4 text-[#FFA901]" />
+            <LuX className="size-4 text-[#FFA901]" />
           ) : (
-            <FaBars className="size-4 text-[#FFA901]" />
+            <LuMenu className="size-4 text-[#FFA901]" />
           )}
         </button>
       </div>
