@@ -14,15 +14,25 @@ export function FormActions({
   onCancel,
 }: FormActionsProps) {
   return (
-    <div className="flex flex-wrap items-center gap-3">
-      <Button type="submit" variant="solid" disabled={pending}>
-        {pending ? "Saving..." : isEditing ? "Update" : "Create"}
-      </Button>
+    <div className="flex flex-wrap items-center justify-end gap-3">
       {isEditing ? (
-        <Button type="button" variant="outline" onClick={onCancel}>
+        <Button
+          type="button"
+          variant="outline"
+          className="min-w-28"
+          onClick={onCancel}
+        >
           Cancel
         </Button>
       ) : null}
+      <Button
+        type="submit"
+        variant="solid"
+        className="min-w-28"
+        disabled={pending}
+      >
+        {pending ? "Saving..." : isEditing ? "Update" : "Create"}
+      </Button>
     </div>
   );
 }

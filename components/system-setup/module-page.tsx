@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 type ModulePageProps = {
   title: string;
   entityLabel: string;
+  sectionLabel?: string;
   isEditing?: boolean;
   form: ReactNode;
   table: ReactNode;
@@ -14,6 +15,7 @@ type ModulePageProps = {
 export function ModulePage({
   title,
   entityLabel,
+  sectionLabel = "System Setup",
   isEditing = false,
   form,
   table,
@@ -30,7 +32,7 @@ export function ModulePage({
       transition={{ duration: 0.3 }}
     >
       <div>
-        <p className="text-sm text-[#FFA901]">System Setup</p>
+        <p className="text-sm text-[#FFA901]">{sectionLabel}</p>
         <h1 className="text-2xl font-bold text-black">{title}</h1>
       </div>
       <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
