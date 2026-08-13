@@ -23,6 +23,7 @@ type DataTableShellProps = {
   total: number;
   onPageChange: (page: number) => void;
   onPageSizeChange: (size: PageSizeOption) => void;
+  toolbar?: ReactNode;
   children: ReactNode;
 };
 
@@ -37,16 +38,18 @@ export function DataTableShell({
   total,
   onPageChange,
   onPageSizeChange,
+  toolbar,
   children,
 }: DataTableShellProps) {
   return (
     <div>
-      <div className="border-b border-zinc-200 px-4 py-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-200 px-4 py-3">
         <SearchField
           value={search}
           onChange={onSearchChange}
           placeholder={searchPlaceholder}
         />
+        {toolbar}
       </div>
       <Table>
         <TableHeader>
