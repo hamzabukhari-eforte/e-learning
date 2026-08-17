@@ -22,6 +22,7 @@ type TablePaginationProps = {
   total: number;
   onPageChange: (page: number) => void;
   onPageSizeChange: (size: PageSizeOption) => void;
+  pageSizeId?: string;
 };
 
 export function TablePagination({
@@ -31,6 +32,7 @@ export function TablePagination({
   total,
   onPageChange,
   onPageSizeChange,
+  pageSizeId = "page-size",
 }: TablePaginationProps) {
   const from = total === 0 ? 0 : (page - 1) * pageSize + 1;
   const to = Math.min(page * pageSize, total);
@@ -44,7 +46,7 @@ export function TablePagination({
           <span className="font-medium text-black">{total}</span>
         </p>
         <div className="flex items-center gap-2">
-          <Label htmlFor="page-size" className="whitespace-nowrap text-zinc-600">
+          <Label htmlFor={pageSizeId} className="whitespace-nowrap text-zinc-600">
             Rows per page
           </Label>
           <Select
@@ -53,10 +55,10 @@ export function TablePagination({
               onPageSizeChange(Number(value) as PageSizeOption)
             }
           >
-            <SelectTrigger id="page-size" className="h-10 w-[88px]">
+            <SelectTrigger id={pageSizeId} className="h-10 w-[88px]">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="z-[80]">
               {PAGE_SIZE_OPTIONS.map((size) => (
                 <SelectItem key={size} value={String(size)}>
                   {size}

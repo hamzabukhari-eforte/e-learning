@@ -14,16 +14,25 @@ export async function listQuestions(params?: {
   search?: string;
   page?: number;
   pageSize?: number;
+  type?: SurveyQuestion["type"];
 }): Promise<PaginatedResult<SurveyQuestion>> {
   await delay();
   const search = params?.search ?? "";
-  const filtered = questions.filter((item) =>
-    matchesSearch(
+  const filtered = questions.filter((item) => {
+    if (params?.type && item.type !== params.type) return false;
+    return matchesSearch(
       `${item.question} ${item.type} ${item.createdBy} ${item.options.join(" ")}`,
       search,
-    ),
-  );
+    );
+  });
   return paginateItems(filtered, params?.page ?? 1, params?.pageSize ?? 10);
+}
+
+export async function getQuestionsByType(
+  type: SurveyQuestion["type"],
+): Promise<SurveyQuestion[]> {
+  const result = await listQuestions({ type, page: 1, pageSize: 1000 });
+  return result.items;
 }
 
 export async function createQuestion(

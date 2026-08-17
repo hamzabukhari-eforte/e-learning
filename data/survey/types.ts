@@ -23,6 +23,29 @@ export const QUESTION_TYPE_LABEL: Record<QuestionType, string> = {
 
 export const EMPTY_MCQ_OPTIONS = ["", "", ""];
 
+export type FormQuestion = {
+  questionId: string;
+  sequence: number;
+  question: string;
+};
+
+export type SurveyForm = {
+  id: string;
+  name: string;
+  questionLimit: number;
+  questionType: QuestionType;
+  questions: FormQuestion[];
+  createdBy: string;
+  createdDate: string;
+};
+
+export type SurveyFormInput = {
+  name: string;
+  questionLimit: string;
+  questionType: QuestionType | "";
+  questions: FormQuestion[];
+};
+
 export function formatQuestionBody(item: {
   question: string;
   type: QuestionType | "";

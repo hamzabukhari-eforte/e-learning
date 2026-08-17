@@ -24,6 +24,7 @@ type DataTableShellProps = {
   onPageChange: (page: number) => void;
   onPageSizeChange: (size: PageSizeOption) => void;
   toolbar?: ReactNode;
+  pageSizeId?: string;
   children: ReactNode;
 };
 
@@ -39,6 +40,7 @@ export function DataTableShell({
   onPageChange,
   onPageSizeChange,
   toolbar,
+  pageSizeId,
   children,
 }: DataTableShellProps) {
   return (
@@ -68,6 +70,7 @@ export function DataTableShell({
         total={total}
         onPageChange={onPageChange}
         onPageSizeChange={onPageSizeChange}
+        pageSizeId={pageSizeId}
       />
     </div>
   );
