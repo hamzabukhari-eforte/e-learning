@@ -9,7 +9,7 @@ import type { SelectOption } from "@/data/registration/types";
 import type { SendFormInput, SentForm } from "@/data/survey/types";
 
 const EMPTY: SendFormInput = {
-  employeeId: "",
+  employeeIds: [],
   formId: "",
   formType: "",
   validFrom: "",

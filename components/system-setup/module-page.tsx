@@ -9,7 +9,7 @@ type ModulePageProps = {
   sectionLabel?: string;
   formTitle?: string;
   isEditing?: boolean;
-  form: ReactNode;
+  form?: ReactNode;
   table: ReactNode;
 };
 
@@ -36,10 +36,12 @@ export function ModulePage({
         <p className="text-sm text-[#FFA901]">{sectionLabel}</p>
         <h1 className="text-2xl font-bold text-black">{title}</h1>
       </div>
-      <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
-        <h2 className="mb-4 text-base font-semibold text-black">{heading}</h2>
-        {form}
-      </section>
+      {form ? (
+        <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
+          <h2 className="mb-4 text-base font-semibold text-black">{heading}</h2>
+          {form}
+        </section>
+      ) : null}
       <section className="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm">
         {table}
       </section>

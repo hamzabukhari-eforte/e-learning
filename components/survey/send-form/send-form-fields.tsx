@@ -2,6 +2,7 @@
 
 import type { FormEvent } from "react";
 import { Button } from "@/components/ui/button";
+import { SearchableMultiSelect } from "@/components/registration/searchable-multi-select";
 import { SearchableSelect } from "@/components/registration/searchable-select";
 import { DateTimeField } from "@/components/survey/send-form/datetime-field";
 import { FormTypeSelect } from "@/components/survey/send-form/form-type-select";
@@ -34,14 +35,14 @@ export function SendFormFields({
 
   return (
     <form className="grid gap-4 md:grid-cols-3" onSubmit={handleSubmit}>
-      <SearchableSelect
+      <SearchableMultiSelect
         id="send-employee"
         label="Select Employee"
-        placeholder="Select employee"
+        placeholder="Select employees"
         searchPlaceholder="Search employee..."
-        value={values.employeeId}
+        values={values.employeeIds}
         options={employees}
-        onChange={(employeeId) => onChange({ ...values, employeeId })}
+        onChange={(employeeIds) => onChange({ ...values, employeeIds })}
         required
       />
       <SearchableSelect

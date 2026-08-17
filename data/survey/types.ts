@@ -55,22 +55,34 @@ export const SENT_FORM_TYPE_LABEL: Record<SentFormType, string> = {
 
 export type SentForm = {
   id: string;
-  employeeId: string;
-  employeeName: string;
+  employeeIds: string[];
+  employeeNames: string[];
   formId: string;
   formName: string;
   formType: SentFormType;
   assignedAt: string;
   validFrom: string;
   validTo: string;
+  attemptedCount: number;
 };
 
 export type SendFormInput = {
-  employeeId: string;
+  employeeIds: string[];
   formId: string;
   formType: SentFormType | "";
   validFrom: string;
   validTo: string;
+};
+
+export type SurveyResult = {
+  id: string;
+  formName: string;
+  formType: SentFormType;
+  assignedAt: string;
+  validFrom: string;
+  validTo: string;
+  assignedCount: number;
+  attemptedCount: number;
 };
 
 export function formatQuestionBody(item: {
