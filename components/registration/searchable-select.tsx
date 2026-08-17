@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaChevronDown } from "react-icons/fa6";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,6 +15,7 @@ type SearchableSelectProps = {
   options: SelectOption[];
   onChange: (value: string) => void;
   required?: boolean;
+  searchPlaceholder?: string;
 };
 
 export function SearchableSelect({
@@ -25,16 +26,16 @@ export function SearchableSelect({
   options,
   onChange,
   required,
+  searchPlaceholder,
 }: SearchableSelectProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const rootRef = useRef<HTMLDivElement>(null);
   const selected = options.find((option) => option.id === value);
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return options;
-    return options.filter((o) => o.label.toLowerCase().includes(q));
-  }, [options, query]);
+  const q = query.trim().toLowerCase();
+  const filtered = q
+    ? options.filter((o) => o.label.toLowerCase().includes(q))
+    : options;
 
   useEffect(() => {
     function onPointerDown(event: MouseEvent) {
@@ -72,7 +73,7 @@ export function SearchableSelect({
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search employee..."
+              placeholder={searchPlaceholder ?? placeholder}
               autoFocus
               className="mb-2"
             />

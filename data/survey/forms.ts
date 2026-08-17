@@ -23,6 +23,11 @@ export async function listForms(params?: {
   return paginateItems(filtered, params?.page ?? 1, params?.pageSize ?? 10);
 }
 
+export async function getAllForms(): Promise<SurveyForm[]> {
+  const result = await listForms({ page: 1, pageSize: 1000 });
+  return result.items;
+}
+
 export async function createForm(
   input: SurveyFormInput,
   createdBy: string,

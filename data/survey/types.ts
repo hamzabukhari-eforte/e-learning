@@ -46,6 +46,33 @@ export type SurveyFormInput = {
   questions: FormQuestion[];
 };
 
+export type SentFormType = "survey" | "interview";
+
+export const SENT_FORM_TYPE_LABEL: Record<SentFormType, string> = {
+  survey: "Survey Form",
+  interview: "Interview Form",
+};
+
+export type SentForm = {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  formId: string;
+  formName: string;
+  formType: SentFormType;
+  assignedAt: string;
+  validFrom: string;
+  validTo: string;
+};
+
+export type SendFormInput = {
+  employeeId: string;
+  formId: string;
+  formType: SentFormType | "";
+  validFrom: string;
+  validTo: string;
+};
+
 export function formatQuestionBody(item: {
   question: string;
   type: QuestionType | "";
