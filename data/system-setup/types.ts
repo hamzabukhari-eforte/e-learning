@@ -33,6 +33,13 @@ export type Training = {
   status: EntityStatus;
 };
 
+export type SubTraining = {
+  id: string;
+  trainingId: string;
+  trainingName: string;
+  name: string;
+};
+
 export type PaginatedResult<T> = {
   items: T[];
   total: number;

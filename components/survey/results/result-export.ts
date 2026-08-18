@@ -6,7 +6,7 @@ import { formatDateTime, formatValidity } from "@/lib/datetime";
 import type { ExportColumn } from "@/lib/table-export";
 
 export const SURVEY_RESULT_EXPORT_COLUMNS: ExportColumn<SurveyResult>[] = [
-  { header: "S. No", getValue: (_row, index) => String(index + 1) },
+  { header: "Serial #", getValue: (_row, index) => String(index + 1) },
   { header: "Form Name", getValue: (row) => row.formName },
   {
     header: "Form Type",

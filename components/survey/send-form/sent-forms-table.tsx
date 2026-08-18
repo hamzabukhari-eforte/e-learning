@@ -38,7 +38,7 @@ export function SentFormsTable({
       search={search}
       onSearchChange={onSearchChange}
       searchPlaceholder="Search sent forms..."
-      headers={["S. No", "ID", "Form Name", "Form Type", "Assign Date", "Validity"]}
+      headers={["Serial #", "ID", "Form Name", "Form Type", "Assign Date", "Validity"]}
       page={page}
       pageSize={pageSize}
       totalPages={totalPages}

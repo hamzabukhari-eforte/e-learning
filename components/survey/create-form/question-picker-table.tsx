@@ -43,7 +43,7 @@ export function QuestionPickerTable({
         search={search}
         onSearchChange={onSearchChange}
         searchPlaceholder="Search questions..."
-        headers={["S. No", "Questions", "Question Sequence"]}
+        headers={["Serial #", "Questions", "Question Sequence"]}
         page={page}
         pageSize={pageSize}
         totalPages={totalPages}

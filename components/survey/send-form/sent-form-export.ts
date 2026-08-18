@@ -6,7 +6,7 @@ import { formatDateTime, formatValidity } from "@/lib/datetime";
 import type { ExportColumn } from "@/lib/table-export";
 
 export const SENT_FORM_EXPORT_COLUMNS: ExportColumn<SentForm>[] = [
-  { header: "S. No", getValue: (_row, index) => String(index + 1) },
+  { header: "Serial #", getValue: (_row, index) => String(index + 1) },
   { header: "ID", getValue: (row) => row.id },
   { header: "Form Name", getValue: (row) => row.formName },
   {

@@ -39,7 +39,7 @@ export function SurveyResultsTable({
       onSearchChange={onSearchChange}
       searchPlaceholder="Search survey results..."
       headers={[
-        "S. No",
+        "Serial #",
         "Form Name",
         "Form Type",
         "Assign Date",

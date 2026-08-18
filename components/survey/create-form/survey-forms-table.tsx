@@ -50,7 +50,7 @@ export function SurveyFormsTable({
         search={search}
         onSearchChange={onSearchChange}
         searchPlaceholder="Search forms..."
-        headers={["S. No", "Form Name", "Created By", "Created Date", "Actions"]}
+        headers={["Serial #", "Form Name", "Created By", "Created Date", "Actions"]}
         page={page}
         pageSize={pageSize}
         totalPages={totalPages}

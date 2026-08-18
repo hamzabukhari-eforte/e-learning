@@ -69,6 +69,13 @@ export async function listTrainers(params?: {
   return paginateItems(filtered, params?.page ?? 1, params?.pageSize ?? 10);
 }
 
+export async function listTrainerOptions(): Promise<SelectOption[]> {
+  const result = await listTrainers({ page: 1, pageSize: 1000 });
+  return result.items
+    .filter((item) => item.status === "active")
+    .map((item) => ({ id: item.id, label: item.employeeName }));
+}
+
 export async function createTrainer(input: TrainerInput): Promise<Trainer | null> {
   await delay();
   if (!input.employeeId || !input.trainerType) return null;
