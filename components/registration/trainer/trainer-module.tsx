@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { ModulePage } from "@/components/system-setup/module-page";
 import { usePagedList } from "@/components/system-setup/use-paged-list";
+import { useConfirm } from "@/components/ui/use-confirm";
 import { TrainerForm } from "@/components/registration/trainer/trainer-form";
 import { TrainerTable } from "@/components/registration/trainer/trainer-table";
 import {
@@ -25,6 +26,7 @@ export function TrainerModule() {
   const [employees, setEmployees] = useState<SelectOption[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const { confirm, dialog } = useConfirm();
   const listFn = useCallback(
     (params: { search: string; page: number; pageSize: number }) =>
       listTrainers(params),
@@ -47,52 +49,62 @@ export function TrainerModule() {
     list.refreshFromStart();
   }
 
+  async function handleDelete(row: Trainer) {
+    const ok = await confirm({
+      title: "Remove trainer",
+      description: `Are you sure you want to remove "${row.employeeName}" from the trainer list? This action cannot be undone.`,
+      confirmLabel: "Remove",
+    });
+    if (!ok) return;
+    await deleteTrainer(row.id);
+    await list.reload();
+  }
+
   return (
-    <ModulePage
-      title="Add Trainer"
-      entityLabel="Trainer"
-      sectionLabel="Registration"
-      isEditing={Boolean(editingId)}
-      form={
-        <TrainerForm
-          values={values}
-          employees={employees}
-          onChange={setValues}
-          isEditing={Boolean(editingId)}
-          pending={pending}
-          onSubmit={handleSubmit}
-          onCancel={() => {
-            setEditingId(null);
-            setValues(EMPTY);
-          }}
-        />
-      }
-      table={
-        <TrainerTable
-          rows={list.rows}
-          page={list.page}
-          pageSize={list.pageSize}
-          totalPages={list.totalPages}
-          total={list.total}
-          search={list.search}
-          onSearchChange={list.updateSearch}
-          onPageChange={list.setPage}
-          onPageSizeChange={list.updatePageSize}
-          onEdit={(row) => {
-            setEditingId(row.id);
-            setValues({
-              employeeId: row.employeeId,
-              trainerType: row.trainerType,
-              status: row.status,
-            });
-          }}
-          onDelete={async (row) => {
-            if (!window.confirm(`Remove trainer ${row.employeeName}?`)) return;
-            await deleteTrainer(row.id);
-            await list.reload();
-          }}
-        />
-      }
-    />
+    <>
+      <ModulePage
+        title="Add Trainer"
+        entityLabel="Trainer"
+        sectionLabel="Registration"
+        isEditing={Boolean(editingId)}
+        form={
+          <TrainerForm
+            values={values}
+            employees={employees}
+            onChange={setValues}
+            isEditing={Boolean(editingId)}
+            pending={pending}
+            onSubmit={handleSubmit}
+            onCancel={() => {
+              setEditingId(null);
+              setValues(EMPTY);
+            }}
+          />
+        }
+        table={
+          <TrainerTable
+            rows={list.rows}
+            page={list.page}
+            pageSize={list.pageSize}
+            totalPages={list.totalPages}
+            total={list.total}
+            search={list.search}
+            onSearchChange={list.updateSearch}
+            onPageChange={list.setPage}
+            onPageSizeChange={list.updatePageSize}
+            onEdit={(row) => {
+              setEditingId(row.id);
+              setValues({
+                employeeId: row.employeeId,
+                trainerType: row.trainerType,
+                status: row.status,
+              });
+            }}
+            onDelete={handleDelete}
+          />
+        }
+      />
+      {dialog}
+    </>
   );
 }

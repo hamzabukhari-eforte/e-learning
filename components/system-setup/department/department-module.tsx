@@ -8,6 +8,7 @@ import {
 } from "@/components/system-setup/name-status-form";
 import { NameStatusTable } from "@/components/system-setup/name-status-table";
 import { usePagedList } from "@/components/system-setup/use-paged-list";
+import { useConfirm } from "@/components/ui/use-confirm";
 import {
   createDepartment,
   deleteDepartment,
@@ -22,6 +23,7 @@ export function DepartmentModule() {
   const [values, setValues] = useState<NameStatusValues>(EMPTY);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const { confirm, dialog } = useConfirm();
   const listFn = useCallback(
     (params: { search: string; page: number; pageSize: number }) =>
       listDepartments(params),
@@ -39,51 +41,61 @@ export function DepartmentModule() {
     list.refreshFromStart();
   }
 
+  async function handleDelete(row: Department) {
+    const ok = await confirm({
+      title: "Delete department",
+      description: `Are you sure you want to delete "${row.name}"? This action cannot be undone.`,
+      confirmLabel: "Delete",
+    });
+    if (!ok) return;
+    await deleteDepartment(row.id);
+    await list.reload();
+  }
+
   return (
-    <ModulePage
-      title="Define Department"
-      entityLabel="Department"
-      isEditing={Boolean(editingId)}
-      form={
-        <NameStatusForm
-          nameLabel="Department Name"
-          namePlaceholder="Enter department name"
-          values={values}
-          onChange={setValues}
-          isEditing={Boolean(editingId)}
-          pending={pending}
-          onSubmit={handleSubmit}
-          onCancel={() => {
-            setEditingId(null);
-            setValues(EMPTY);
-          }}
-        />
-      }
-      table={
-        <NameStatusTable
-          nameHeader="Department Name"
-          emptyText="No departments found."
-          searchPlaceholder="Search department..."
-          rows={list.rows}
-          page={list.page}
-          pageSize={list.pageSize}
-          totalPages={list.totalPages}
-          total={list.total}
-          search={list.search}
-          onSearchChange={list.updateSearch}
-          onPageChange={list.setPage}
-          onPageSizeChange={list.updatePageSize}
-          onEdit={(row) => {
-            setEditingId(row.id);
-            setValues({ name: row.name, status: row.status });
-          }}
-          onDelete={async (row) => {
-            if (!window.confirm(`Delete ${row.name}?`)) return;
-            await deleteDepartment(row.id);
-            await list.reload();
-          }}
-        />
-      }
-    />
+    <>
+      <ModulePage
+        title="Define Department"
+        entityLabel="Department"
+        isEditing={Boolean(editingId)}
+        form={
+          <NameStatusForm
+            nameLabel="Department Name"
+            namePlaceholder="Enter department name"
+            values={values}
+            onChange={setValues}
+            isEditing={Boolean(editingId)}
+            pending={pending}
+            onSubmit={handleSubmit}
+            onCancel={() => {
+              setEditingId(null);
+              setValues(EMPTY);
+            }}
+          />
+        }
+        table={
+          <NameStatusTable
+            nameHeader="Department Name"
+            emptyText="No departments found."
+            searchPlaceholder="Search department..."
+            rows={list.rows}
+            page={list.page}
+            pageSize={list.pageSize}
+            totalPages={list.totalPages}
+            total={list.total}
+            search={list.search}
+            onSearchChange={list.updateSearch}
+            onPageChange={list.setPage}
+            onPageSizeChange={list.updatePageSize}
+            onEdit={(row) => {
+              setEditingId(row.id);
+              setValues({ name: row.name, status: row.status });
+            }}
+            onDelete={handleDelete}
+          />
+        }
+      />
+      {dialog}
+    </>
   );
 }

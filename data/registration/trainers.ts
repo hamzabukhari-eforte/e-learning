@@ -3,6 +3,7 @@ import {
   paginateItems,
   type PaginatedResult,
 } from "@/data/system-setup/types";
+import { TRAINER_SEED } from "@/data/registration/trainer-seed";
 import type {
   SelectOption,
   Trainer,
@@ -24,29 +25,7 @@ const EMPLOYEES: SelectOption[] = [
   { id: "e8", label: "Zainab Hussain" },
 ];
 
-let trainers: Trainer[] = [
-  {
-    id: "1",
-    employeeId: "e1",
-    employeeName: "Ahmed Khan",
-    trainerType: "master",
-    status: "active",
-  },
-  {
-    id: "2",
-    employeeId: "e2",
-    employeeName: "Sara Ali",
-    trainerType: "departmental",
-    status: "active",
-  },
-  {
-    id: "3",
-    employeeId: "e4",
-    employeeName: "Fatima Noor",
-    trainerType: "departmental",
-    status: "inactive",
-  },
-];
+let trainers: Trainer[] = [...TRAINER_SEED];
 
 export async function listEmployeesForTrainer(): Promise<SelectOption[]> {
   await delay();
@@ -62,6 +41,7 @@ export async function listTrainers(params?: {
   const search = params?.search ?? "";
   const filtered = trainers.filter(
     (item) =>
+      matchesSearch(item.id, search) ||
       matchesSearch(item.employeeName, search) ||
       matchesSearch(item.trainerType, search) ||
       matchesSearch(item.status, search),
@@ -82,7 +62,7 @@ export async function createTrainer(input: TrainerInput): Promise<Trainer | null
   const employee = EMPLOYEES.find((item) => item.id === input.employeeId);
   if (!employee) return null;
   const trainer: Trainer = {
-    id: String(Date.now()),
+    id: nextTrainerId(),
     employeeId: input.employeeId,
     employeeName: employee.label,
     trainerType: input.trainerType,
@@ -117,6 +97,15 @@ export async function deleteTrainer(id: string): Promise<boolean> {
   const before = trainers.length;
   trainers = trainers.filter((item) => item.id !== id);
   return trainers.length < before;
+}
+
+function nextTrainerId() {
+  const max = trainers.reduce((highest, item) => {
+    const match = /^TR-(\d+)$/.exec(item.id);
+    const value = match ? Number(match[1]) : 0;
+    return value > highest ? value : highest;
+  }, 0);
+  return `TR-${String(max + 1).padStart(3, "0")}`;
 }
 
 function delay() {

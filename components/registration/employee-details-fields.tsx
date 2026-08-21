@@ -16,6 +16,7 @@ type EmployeeDetailsFieldsProps = {
   hods: SelectOption[];
   countries: SelectOption[];
   cities: SelectOption[];
+  requirePassword?: boolean;
 };
 
 export function EmployeeDetailsFields({
@@ -26,6 +27,7 @@ export function EmployeeDetailsFields({
   hods,
   countries,
   cities,
+  requirePassword = true,
 }: EmployeeDetailsFieldsProps) {
   function set<K extends keyof EmployeeRegistrationInput>(
     key: K,
@@ -40,7 +42,15 @@ export function EmployeeDetailsFields({
       <TextField id="middle-name" label="Middle Name" value={values.middleName} onChange={(v) => set("middleName", v)} placeholder="Enter middle name" />
       <TextField id="last-name" label="Last Name" value={values.lastName} onChange={(v) => set("lastName", v)} placeholder="Enter last name" required />
       <TextField id="login-id" label="Employee Login Id" value={values.loginId} onChange={(v) => set("loginId", v)} placeholder="Enter login ID" required />
-      <TextField id="password" label="Password" type="password" value={values.password} onChange={(v) => set("password", v)} placeholder="Enter password" required />
+      <TextField
+        id="password"
+        label="Password"
+        type="password"
+        value={values.password}
+        onChange={(v) => set("password", v)}
+        placeholder={requirePassword ? "Enter password" : "Leave blank to keep current"}
+        required={requirePassword}
+      />
       <TextField id="employee-no" label="Employee No#" value={values.employeeNo} onChange={(v) => set("employeeNo", v)} placeholder="Enter employee number" required />
       <TextField id="contact" label="Contact Number (without - )" value={values.contactNumber} onChange={(v) => set("contactNumber", v)} placeholder="Enter contact number" required />
       <TextField id="email" label="Email Address" type="email" value={values.email} onChange={(v) => set("email", v)} placeholder="Enter email address" required />

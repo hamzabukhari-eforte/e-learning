@@ -1,31 +1,40 @@
 "use client";
 
-import { FaPencil, FaTrash } from "react-icons/fa6";
+import { Button } from "@/components/ui/button";
 
 type RowActionsProps = {
   onEdit: () => void;
   onDelete: () => void;
+  editLabel?: string;
+  deleteLabel?: string;
 };
 
-export function RowActions({ onEdit, onDelete }: RowActionsProps) {
+export function RowActions({
+  onEdit,
+  onDelete,
+  editLabel = "Edit",
+  deleteLabel = "Delete",
+}: RowActionsProps) {
   return (
-    <div className="flex items-center gap-2">
-      <button
+    <div className="flex flex-wrap items-center gap-2">
+      <Button
         type="button"
+        variant="outline"
+        size="sm"
+        className="h-9"
         onClick={onEdit}
-        className="cursor-pointer rounded-md p-2 text-[#042954] hover:bg-[#042954]/10"
-        aria-label="Edit"
       >
-        <FaPencil className="size-3.5" />
-      </button>
-      <button
+        {editLabel}
+      </Button>
+      <Button
         type="button"
+        variant="outline"
+        size="sm"
+        className="h-9 border-red-600 text-red-600 hover:bg-red-50"
         onClick={onDelete}
-        className="cursor-pointer rounded-md p-2 text-red-600 hover:bg-red-50"
-        aria-label="Delete"
       >
-        <FaTrash className="size-3.5" />
-      </button>
+        {deleteLabel}
+      </Button>
     </div>
   );
 }

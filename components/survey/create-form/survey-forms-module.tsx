@@ -21,6 +21,7 @@ export function SurveyFormsModule() {
     resetForm,
     handleEdit,
     handleDelete,
+    dialog,
   } = useSurveyForms();
 
   return (
@@ -71,6 +72,7 @@ export function SurveyFormsModule() {
           }}
         />
       ) : null}
+      {dialog}
     </>
   );
 }

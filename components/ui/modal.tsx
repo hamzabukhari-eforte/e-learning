@@ -9,9 +9,16 @@ type ModalProps = {
   title: string;
   onClose: () => void;
   children: ReactNode;
+  size?: "md" | "lg";
 };
 
-export function Modal({ open, title, onClose, children }: ModalProps) {
+export function Modal({
+  open,
+  title,
+  onClose,
+  children,
+  size = "lg",
+}: ModalProps) {
   useEffect(() => {
     if (!open) return;
     function onKey(event: KeyboardEvent) {
@@ -35,7 +42,9 @@ export function Modal({ open, title, onClose, children }: ModalProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
-        className="relative z-10 flex max-h-[90vh] w-full max-w-6xl flex-col rounded-lg border border-zinc-200 bg-white shadow-lg"
+        className={`relative z-10 flex max-h-[90vh] w-full flex-col rounded-lg border border-zinc-200 bg-white shadow-lg ${
+          size === "md" ? "max-w-lg" : "max-w-6xl"
+        }`}
       >
         <div className="border-b border-zinc-200 px-5 py-4">
           <h2 id="modal-title" className="text-base font-semibold text-black">

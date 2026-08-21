@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import { ModulePage } from "@/components/system-setup/module-page";
 import { usePagedList } from "@/components/system-setup/use-paged-list";
+import { useConfirm } from "@/components/ui/use-confirm";
 import { PopupForm } from "@/components/assign-training/popup-setup/popup-form";
 import { PopupTable } from "@/components/assign-training/popup-setup/popup-table";
 import {
@@ -20,6 +21,7 @@ export function PopupModule() {
   const [values, setValues] = useState<PopupSetupInput>(EMPTY);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const { confirm, dialog } = useConfirm();
   const listFn = useCallback(
     (params: { search: string; page: number; pageSize: number }) =>
       listPopupSetups(params),
@@ -47,46 +49,60 @@ export function PopupModule() {
   }
 
   async function handleDelete(row: PopupSetup) {
-    if (!window.confirm("Delete this popup setup?")) return;
+    const ok = await confirm({
+      title: "Delete popup setup",
+      description: `Are you sure you want to delete the ${row.minutes}m ${row.seconds}s popup setup? This action cannot be undone.`,
+      confirmLabel: "Delete",
+    });
+    if (!ok) return;
     await deletePopupSetup(row.id);
     await list.reload();
   }
 
   return (
-    <ModulePage
-      title="Add Popup Setup"
-      entityLabel="Popup Setup"
-      sectionLabel="Assign Training"
-      isEditing={Boolean(editingId)}
-      form={
-        <PopupForm
-          values={values}
-          onChange={setValues}
-          isEditing={Boolean(editingId)}
-          pending={pending}
-          onSubmit={handleSubmit}
-          onCancel={() => { setEditingId(null); setValues(EMPTY); }}
-        />
-      }
-      table={
-        <PopupTable
-          rows={list.rows}
-          page={list.page}
-          pageSize={list.pageSize}
-          totalPages={list.totalPages}
-          total={list.total}
-          search={list.search}
-          onSearchChange={list.updateSearch}
-          onPageChange={list.setPage}
-          onPageSizeChange={list.updatePageSize}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          getExportRows={() =>
-            listPopupSetups({ search: list.search, page: 1, pageSize: 10000 })
-              .then((r) => r.items)
-          }
-        />
-      }
-    />
+    <>
+      <ModulePage
+        title="Add Popup Setup"
+        entityLabel="Popup Setup"
+        sectionLabel="Assign Training"
+        isEditing={Boolean(editingId)}
+        form={
+          <PopupForm
+            values={values}
+            onChange={setValues}
+            isEditing={Boolean(editingId)}
+            pending={pending}
+            onSubmit={handleSubmit}
+            onCancel={() => {
+              setEditingId(null);
+              setValues(EMPTY);
+            }}
+          />
+        }
+        table={
+          <PopupTable
+            rows={list.rows}
+            page={list.page}
+            pageSize={list.pageSize}
+            totalPages={list.totalPages}
+            total={list.total}
+            search={list.search}
+            onSearchChange={list.updateSearch}
+            onPageChange={list.setPage}
+            onPageSizeChange={list.updatePageSize}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            getExportRows={() =>
+              listPopupSetups({
+                search: list.search,
+                page: 1,
+                pageSize: 10000,
+              }).then((r) => r.items)
+            }
+          />
+        }
+      />
+      {dialog}
+    </>
   );
 }

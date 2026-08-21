@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { usePagedList } from "@/components/system-setup/use-paged-list";
+import { useConfirm } from "@/components/ui/use-confirm";
 import { getSession } from "@/data/auth";
 import { createForm, deleteForm, listForms, updateForm } from "@/data/survey/forms";
 import type { SurveyForm, SurveyFormInput } from "@/data/survey/types";
@@ -19,6 +20,7 @@ export function useSurveyForms() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
+  const { confirm, dialog } = useConfirm();
   const listFn = useCallback(
     (params: { search: string; page: number; pageSize: number }) => listForms(params),
     [],
@@ -69,7 +71,12 @@ export function useSurveyForms() {
   }
 
   async function handleDelete(row: SurveyForm) {
-    if (!window.confirm(`Delete form ${row.name}?`)) return;
+    const ok = await confirm({
+      title: "Delete form",
+      description: `Are you sure you want to delete "${row.name}"? This action cannot be undone.`,
+      confirmLabel: "Delete",
+    });
+    if (!ok) return;
     await deleteForm(row.id);
     await list.reload();
   }
@@ -79,5 +86,6 @@ export function useSurveyForms() {
     pickerOpen, openPicker,
     closePicker: () => setPickerOpen(false),
     handleSubmit, resetForm, handleEdit, handleDelete,
+    dialog,
   };
 }

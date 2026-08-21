@@ -19,42 +19,46 @@ export function QuestionsModule() {
     handleDelete,
     getExportRows,
     formKey,
+    dialog,
   } = useQuestionsModule();
 
   return (
-    <ModulePage
-      title="Create Questions"
-      entityLabel="Question"
-      sectionLabel="Survey"
-      isEditing={Boolean(editingId)}
-      form={
-        <QuestionForm
-          key={`${formKey}-${editingId ?? "new"}`}
-          values={values}
-          onChange={setValues}
-          isEditing={Boolean(editingId)}
-          pending={pending}
-          error={error}
-          onSubmit={handleSubmit}
-          onCancel={resetForm}
-        />
-      }
-      table={
-        <QuestionTable
-          rows={list.rows}
-          page={list.page}
-          pageSize={list.pageSize}
-          totalPages={list.totalPages}
-          total={list.total}
-          search={list.search}
-          onSearchChange={list.updateSearch}
-          onPageChange={list.setPage}
-          onPageSizeChange={list.updatePageSize}
-          getExportRows={getExportRows}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        />
-      }
-    />
+    <>
+      <ModulePage
+        title="Create Questions"
+        entityLabel="Question"
+        sectionLabel="Survey"
+        isEditing={Boolean(editingId)}
+        form={
+          <QuestionForm
+            key={`${formKey}-${editingId ?? "new"}`}
+            values={values}
+            onChange={setValues}
+            isEditing={Boolean(editingId)}
+            pending={pending}
+            error={error}
+            onSubmit={handleSubmit}
+            onCancel={resetForm}
+          />
+        }
+        table={
+          <QuestionTable
+            rows={list.rows}
+            page={list.page}
+            pageSize={list.pageSize}
+            totalPages={list.totalPages}
+            total={list.total}
+            search={list.search}
+            onSearchChange={list.updateSearch}
+            onPageChange={list.setPage}
+            onPageSizeChange={list.updatePageSize}
+            getExportRows={getExportRows}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        }
+      />
+      {dialog}
+    </>
   );
 }

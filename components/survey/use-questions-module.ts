@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { usePagedList } from "@/components/system-setup/use-paged-list";
+import { useConfirm } from "@/components/ui/use-confirm";
 import { getSession } from "@/data/auth";
 import {
   createQuestion,
@@ -27,6 +28,7 @@ export function useQuestionsModule() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [formKey, setFormKey] = useState(0);
+  const { confirm, dialog } = useConfirm();
   const listFn = useCallback(
     (params: { search: string; page: number; pageSize: number }) =>
       listQuestions(params),
@@ -69,7 +71,13 @@ export function useQuestionsModule() {
   }
 
   async function handleDelete(row: SurveyQuestion) {
-    if (!window.confirm("Delete this question?")) return;
+    const ok = await confirm({
+      title: "Delete question",
+      description:
+        "Are you sure you want to delete this question? This action cannot be undone.",
+      confirmLabel: "Delete",
+    });
+    if (!ok) return;
     await deleteQuestion(row.id);
     await list.reload();
   }
@@ -95,5 +103,6 @@ export function useQuestionsModule() {
     handleDelete,
     getExportRows,
     formKey,
+    dialog,
   };
 }

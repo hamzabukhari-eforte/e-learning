@@ -81,10 +81,10 @@ const ADMIN_NAV: NavItem[] = [
     label: "System Management",
     icon: "management",
     children: [
-      { id: "edit-training", label: "Edit Training Details", href: "/dashboard/system-management/edit-training" },
-      { id: "edit-employee", label: "Edit Employee Details", href: "/dashboard/system-management/edit-employee" },
-      { id: "edit-assigned-trainer", label: "Edit Assigned Trainer", href: "/dashboard/system-management/edit-assigned-trainer" },
-      { id: "edit-training-dept", label: "Edit Training / Department Binding Report", href: "/dashboard/system-management/edit-training-department" },
+      { id: "employee-details", label: "Employee Details", href: "/dashboard/system-management/employee-details" },
+      { id: "trainer-details", label: "Trainer Details", href: "/dashboard/system-management/trainer-details" },
+      { id: "assigned-trainer", label: "Assigned Trainer", href: "/dashboard/system-management/assigned-trainer" },
+      { id: "binding-report", label: "Training/Department Binding Report", href: "/dashboard/system-management/binding-report" },
     ],
   },
   {
