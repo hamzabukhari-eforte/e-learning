@@ -25,15 +25,27 @@ export async function listSubTrainings(params?: {
   search?: string;
   page?: number;
   pageSize?: number;
+  trainingId?: string;
 }): Promise<PaginatedResult<SubTraining>> {
   await delay();
   const search = params?.search ?? "";
-  const filtered = subTrainings.filter(
-    (item) =>
+  const filtered = subTrainings.filter((item) => {
+    if (params?.trainingId && item.trainingId !== params.trainingId) return false;
+    return (
       matchesSearch(item.name, search) ||
-      matchesSearch(item.trainingName, search),
-  );
+      matchesSearch(item.trainingName, search)
+    );
+  });
   return paginateItems(filtered, params?.page ?? 1, params?.pageSize ?? 10);
+}
+
+export async function listSubTrainingOptions(trainingId?: string) {
+  const result = await listSubTrainings({
+    page: 1,
+    pageSize: 1000,
+    trainingId,
+  });
+  return result.items.map((item) => ({ id: item.id, label: item.name }));
 }
 
 function delay() {

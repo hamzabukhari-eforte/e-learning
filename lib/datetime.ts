@@ -53,3 +53,24 @@ export function applyTime(date: Date, hours: number, minutes: number) {
 export function toIso(date: Date) {
   return date.toISOString();
 }
+
+export function toStartOfDayIso(date: Date) {
+  const next = new Date(date);
+  next.setHours(0, 0, 0, 0);
+  return next.toISOString();
+}
+
+export function toEndOfDayIso(date: Date) {
+  const next = new Date(date);
+  next.setHours(23, 59, 59, 999);
+  return next.toISOString();
+}
+
+export function formatDate(iso: string) {
+  if (!iso) return "";
+  return new Date(iso).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
