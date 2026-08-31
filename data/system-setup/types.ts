@@ -38,6 +38,8 @@ export type SubTraining = {
   trainingId: string;
   trainingName: string;
   name: string;
+  description: string;
+  studyMaterialName: string;
 };
 
 export type PaginatedResult<T> = {

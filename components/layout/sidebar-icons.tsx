@@ -4,12 +4,17 @@ import {
   LuBookOpen,
   LuCircleUser,
   LuClipboardList,
+  LuFileQuestion,
   LuFileText,
   LuGauge,
   LuLayers3,
+  LuMessageSquareQuote,
+  LuMessagesSquare,
   LuPencilRuler,
+  LuTrendingUp,
   LuUserPlus,
   LuUsers,
+  LuClipboardCheck,
 } from "react-icons/lu";
 import type { NavIconKey } from "@/data/navigation";
 
@@ -24,4 +29,9 @@ export const NAV_ICONS: Record<NavIconKey, IconType> = {
   notifications: LuBell,
   training: LuBookOpen,
   profile: LuCircleUser,
+  exams: LuFileQuestion,
+  results: LuClipboardCheck,
+  feedback: LuMessageSquareQuote,
+  improvement: LuTrendingUp,
+  chat: LuMessagesSquare,
 };

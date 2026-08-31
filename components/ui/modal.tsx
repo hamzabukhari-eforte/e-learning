@@ -9,7 +9,7 @@ type ModalProps = {
   title: string;
   onClose: () => void;
   children: ReactNode;
-  size?: "md" | "lg";
+  size?: "md" | "lg" | "xl";
 };
 
 export function Modal({
@@ -43,7 +43,11 @@ export function Modal({
         aria-modal="true"
         aria-labelledby="modal-title"
         className={`relative z-10 flex max-h-[90vh] w-full flex-col rounded-lg border border-zinc-200 bg-white shadow-lg ${
-          size === "md" ? "max-w-lg" : "max-w-6xl"
+          size === "md"
+            ? "max-w-lg"
+            : size === "xl"
+              ? "max-w-7xl"
+              : "max-w-6xl"
         }`}
       >
         <div className="border-b border-zinc-200 px-5 py-4">

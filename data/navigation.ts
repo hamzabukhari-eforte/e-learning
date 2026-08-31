@@ -10,7 +10,12 @@ export type NavIconKey =
   | "reports"
   | "notifications"
   | "training"
-  | "profile";
+  | "profile"
+  | "exams"
+  | "results"
+  | "feedback"
+  | "improvement"
+  | "chat";
 
 export type NavChild = {
   id: string;
@@ -114,12 +119,138 @@ const TRAINER_NAV: NavItem[] = [
     label: "Training",
     icon: "training",
     children: [
-      { id: "my-trainings", label: "My Trainings", href: "/dashboard/training/my-trainings" },
-      { id: "assigned-employees", label: "Assigned Employees", href: "/dashboard/training/assigned-employees" },
+      {
+        id: "define-subtraining",
+        label: "Define Subtraining",
+        href: "/dashboard/training/define-subtraining",
+      },
+      {
+        id: "add-training-material",
+        label: "Add Training Material",
+        href: "/dashboard/training/add-material",
+      },
+      {
+        id: "publish-training",
+        label: "Publish training",
+        href: "/dashboard/training/publish",
+      },
     ],
   },
-  { id: "reports", label: "Reports", icon: "reports", href: "/dashboard/reports/trainer" },
-  { id: "notifications", label: "Notifications", icon: "notifications", href: "/dashboard/notifications" },
+  {
+    id: "exams-assignments",
+    label: "Exams/Assignments",
+    icon: "exams",
+    children: [
+      {
+        id: "create-questions",
+        label: "Create Questions",
+        href: "/dashboard/exams/create-questions",
+      },
+      {
+        id: "create-quiz",
+        label: "Create Quiz",
+        href: "/dashboard/exams/create-quiz",
+      },
+      {
+        id: "assign-quiz",
+        label: "Assign Quiz",
+        href: "/dashboard/exams/assign-quiz",
+      },
+      {
+        id: "assign-personalized-assessments",
+        label: "Assign Personalized Assessments",
+        href: "/dashboard/exams/assign-personalized-assessments",
+      },
+    ],
+  },
+  {
+    id: "results",
+    label: "Results",
+    icon: "results",
+    children: [
+      {
+        id: "pending-results-report",
+        label: "Pending Result's Report",
+        href: "/dashboard/results/pending-report",
+      },
+    ],
+  },
+  {
+    id: "assign-feedback",
+    label: "Assign Feedback",
+    icon: "feedback",
+    href: "/dashboard/assign-feedback",
+  },
+  {
+    id: "reports",
+    label: "Report",
+    icon: "reports",
+    children: [
+      {
+        id: "training-summary",
+        label: "Training Summary",
+        href: "/dashboard/reports/training-summary",
+      },
+      {
+        id: "test-attempt-summary",
+        label: "Test/Assignment Attempt Summary",
+        href: "/dashboard/reports/test-summary",
+      },
+      {
+        id: "test-attempt-detail",
+        label: "Test/Assignment Attempt Details",
+        href: "/dashboard/reports/test-detail",
+      },
+      {
+        id: "test-analysis-history",
+        label: "Test/Assignment Analysis and History",
+        href: "/dashboard/reports/test-history",
+      },
+      {
+        id: "live-assessments",
+        label: "Live Assessments View",
+        href: "/dashboard/reports/live-assessments",
+      },
+      {
+        id: "test-wise-analysis",
+        label: "Test Wise Dashboard Analysis",
+        href: "/dashboard/reports/test-wise-analysis",
+      },
+      {
+        id: "employee-progress",
+        label: "Employee Progress Report",
+        href: "/dashboard/reports/employee-progress",
+      },
+      {
+        id: "items-to-focus",
+        label: "Items to focus on",
+        href: "/dashboard/reports/items-to-focus",
+      },
+      {
+        id: "employee-report-card",
+        label: "Employee report card",
+        href: "/dashboard/reports/employee-report-card",
+      },
+    ],
+  },
+  {
+    id: "employee-improvement-plan",
+    label: "Employee Improvement plan",
+    icon: "improvement",
+    href: "/dashboard/employee-improvement-plan",
+  },
+  {
+    id: "group-chat",
+    label: "Group chat",
+    icon: "chat",
+    href: "/dashboard/group-chat",
+  },
+  {
+    id: "notifications",
+    label: "Notifications",
+    icon: "notifications",
+    href: "/dashboard/notifications",
+  },
 ];
 
 const EMPLOYEE_NAV: NavItem[] = [
