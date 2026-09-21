@@ -1,0 +1,40 @@
+import type { ExamQuiz } from "@/data/exams/types";
+
+export const EXAM_QUIZ_SEED: ExamQuiz[] = [
+  {
+    id: "qz1",
+    trainingId: "1",
+    trainingName: "Safety Orientation",
+    subTrainingId: "s1",
+    subTrainingName: "Workplace Hazards",
+    name: "Workplace Hazards Quiz",
+    questionLimit: 5,
+    questionType: "mcq",
+    createdBy: "Trainer",
+    createdDate: "2026-05-10",
+  },
+  {
+    id: "qz2",
+    trainingId: "1",
+    trainingName: "Safety Orientation",
+    subTrainingId: "s2",
+    subTrainingName: "PPE Usage",
+    name: "PPE Usage Quiz",
+    questionLimit: 3,
+    questionType: "text",
+    createdBy: "Ahmed Khan",
+    createdDate: "2026-05-12",
+  },
+  {
+    id: "qz3",
+    trainingId: "2",
+    trainingName: "Fire Fighting",
+    subTrainingId: "s4",
+    subTrainingName: "Extinguisher Types",
+    name: "Extinguisher Types Quiz",
+    questionLimit: 10,
+    questionType: "mcq",
+    createdBy: "Sara Ali",
+    createdDate: "2026-05-15",
+  },
+];

@@ -1,0 +1,46 @@
+import type { AssignedQuiz } from "@/data/exams/types";
+
+export const ASSIGNED_QUIZ_SEED: AssignedQuiz[] = [
+  {
+    id: "aq1",
+    assignedQuizId: "AQ-1001",
+    dateFrom: "2026-05-01T00:00:00.000Z",
+    dateTo: "2026-05-31T00:00:00.000Z",
+    trainingId: "1",
+    trainingName: "Safety Orientation",
+    subTrainingId: "s1",
+    subTrainingName: "Workplace Hazards",
+    employeeIds: ["e1", "e2"],
+    employeeNames: ["Ali Raza", "Fatima Noor"],
+    quizId: "qz1",
+    quizName: "Workplace Hazards Quiz",
+    quizType: "pre-test",
+    validFrom: "2026-05-10T00:00:00.000Z",
+    validTo: "2026-05-20T00:00:00.000Z",
+    emailSubject: "Complete your Safety Orientation quiz",
+    emailContent:
+      "Please attempt the assigned Workplace Hazards quiz within the validity period.",
+    assignedAt: "2026-05-08T10:30:00.000Z",
+  },
+  {
+    id: "aq2",
+    assignedQuizId: "AQ-1002",
+    dateFrom: "2026-06-01T00:00:00.000Z",
+    dateTo: "2026-06-30T00:00:00.000Z",
+    trainingId: "2",
+    trainingName: "Fire Fighting",
+    subTrainingId: "s4",
+    subTrainingName: "Extinguisher Types",
+    employeeIds: ["e3"],
+    employeeNames: ["Hassan Ali"],
+    quizId: "qz3",
+    quizName: "Extinguisher Types Quiz",
+    quizType: "post-test",
+    validFrom: "2026-06-05T00:00:00.000Z",
+    validTo: "2026-06-15T00:00:00.000Z",
+    emailSubject: "Fire Fighting post-test assigned",
+    emailContent:
+      "Your Extinguisher Types post-test is ready. Please complete it before the due date.",
+    assignedAt: "2026-06-02T14:15:00.000Z",
+  },
+];
