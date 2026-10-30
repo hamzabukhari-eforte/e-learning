@@ -1,5 +1,5 @@
-import { NotificationModule } from "@/components/notification/notification-module";
+import { NotificationsGate } from "@/components/notification/notifications-gate";
 
 export default function NotificationPage() {
-  return <NotificationModule />;
+  return <NotificationsGate />;
 }

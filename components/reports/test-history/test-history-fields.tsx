@@ -13,6 +13,7 @@ type TestHistoryFieldsProps = {
   trainers: SelectOption[];
   subTrainings: SelectOption[];
   tests: SelectOption[];
+  showTrainerSelect?: boolean;
   pending?: boolean;
   error?: string | null;
   onChange: (values: TestHistoryFilter) => void;
@@ -25,6 +26,7 @@ export function TestHistoryFields({
   trainers,
   subTrainings,
   tests,
+  showTrainerSelect = true,
   pending,
   error,
   onChange,
@@ -57,16 +59,18 @@ export function TestHistoryFields({
         }
         required
       />
-      <SearchableSelect
-        id="history-trainer"
-        label="Select Trainer"
-        placeholder="Select trainer"
-        searchPlaceholder="Search trainer..."
-        value={values.trainerId}
-        options={trainers}
-        onChange={(trainerId) => onChange({ ...values, trainerId })}
-        required
-      />
+      {showTrainerSelect ? (
+        <SearchableSelect
+          id="history-trainer"
+          label="Select Trainer"
+          placeholder="Select trainer"
+          searchPlaceholder="Search trainer..."
+          value={values.trainerId}
+          options={trainers}
+          onChange={(trainerId) => onChange({ ...values, trainerId })}
+          required
+        />
+      ) : null}
       <SearchableSelect
         id="history-sub-training"
         label="Select Sub Training"

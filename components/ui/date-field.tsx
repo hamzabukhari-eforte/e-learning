@@ -3,6 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import { FaCalendarDays } from "react-icons/fa6";
+import {
+  DAY_PICKER_COMPONENTS,
+  DAY_PICKER_NAV_RANGE,
+  isCalendarInteractSuppressed,
+  isInsideCalendarUi,
+} from "@/components/ui/day-picker";
 import { Label } from "@/components/ui/label";
 import { formatDate } from "@/lib/datetime";
 import { cn } from "@/lib/utils";
@@ -31,6 +37,8 @@ export function DateField({
 
   useEffect(() => {
     function onPointerDown(event: MouseEvent) {
+      if (isCalendarInteractSuppressed()) return;
+      if (isInsideCalendarUi(event.target)) return;
       if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
     }
     document.addEventListener("mousedown", onPointerDown);
@@ -38,7 +46,7 @@ export function DateField({
   }, []);
 
   return (
-    <div className="relative space-y-2" ref={rootRef}>
+    <div className="relative space-y-2" ref={rootRef} data-calendar-root="">
       <Label htmlFor={id}>{label}</Label>
       <button
         type="button"
@@ -47,7 +55,10 @@ export function DateField({
           "flex h-11 w-full cursor-pointer items-center justify-between rounded-md border border-zinc-300 bg-white px-3 text-sm",
           value ? "text-black" : "text-zinc-400",
         )}
-        onClick={() => setOpen((current) => !current)}
+        onClick={() => {
+          if (isCalendarInteractSuppressed()) return;
+          setOpen((current) => !current);
+        }}
       >
         <span>{value ? formatDate(value) : "Select date"}</span>
         <FaCalendarDays className="size-3.5 text-[#FFA901]" />
@@ -58,12 +69,17 @@ export function DateField({
             mode="single"
             selected={selected}
             onSelect={(date) => {
-              if (!date) return;
+              if (!date || isCalendarInteractSuppressed()) return;
               onChange(date.toISOString());
               setOpen(false);
             }}
             disabled={minDate ? { before: minDate } : undefined}
             defaultMonth={selected ?? minDate ?? new Date()}
+            captionLayout="dropdown"
+            navLayout="around"
+            components={DAY_PICKER_COMPONENTS}
+            startMonth={minDate ?? DAY_PICKER_NAV_RANGE.startMonth}
+            endMonth={DAY_PICKER_NAV_RANGE.endMonth}
           />
         </div>
       ) : null}

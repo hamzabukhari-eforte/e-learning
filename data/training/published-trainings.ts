@@ -67,6 +67,36 @@ export async function getPublishedTraining(id: string) {
   return published.find((item) => item.id === id) ?? null;
 }
 
+export async function listPublishedTrainingOptions(params?: {
+  trainingId?: string;
+  subTrainingId?: string;
+  dateFrom?: string;
+  dateTo?: string;
+}) {
+  await delay();
+  const from = params?.dateFrom ? new Date(params.dateFrom).getTime() : null;
+  const to = params?.dateTo ? new Date(params.dateTo).getTime() : null;
+
+  return published
+    .filter((item) => {
+      if (params?.trainingId && item.trainingId !== params.trainingId) return false;
+      if (params?.subTrainingId && item.subTrainingId !== params.subTrainingId) {
+        return false;
+      }
+      if (from !== null && to !== null) {
+        const start = new Date(item.validityFrom).getTime();
+        const end = new Date(item.validityTo).getTime();
+        // Overlap between requested date range and training validity
+        if (end < from || start > to) return false;
+      }
+      return true;
+    })
+    .map((item) => ({
+      id: item.id,
+      label: `${item.subTrainingName} (${item.trainingName})`,
+    }));
+}
+
 export async function createPublishedTraining(
   input: PublishTrainingInput,
 ): Promise<PublishedTraining> {

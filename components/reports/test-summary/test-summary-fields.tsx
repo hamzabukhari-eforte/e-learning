@@ -12,6 +12,7 @@ type TestSummaryFieldsProps = {
   trainings: SelectOption[];
   subTrainings: SelectOption[];
   trainers: SelectOption[];
+  showTrainerSelect?: boolean;
   pending?: boolean;
   error?: string | null;
   idPrefix?: string;
@@ -24,6 +25,7 @@ export function TestSummaryFields({
   trainings,
   subTrainings,
   trainers,
+  showTrainerSelect = true,
   pending,
   error,
   idPrefix = "summary",
@@ -67,16 +69,18 @@ export function TestSummaryFields({
         onChange={(subTrainingId) => onChange({ ...values, subTrainingId })}
         required
       />
-      <SearchableSelect
-        id={`${idPrefix}-trainer`}
-        label="Select Trainer"
-        placeholder="Select trainer"
-        searchPlaceholder="Search trainer..."
-        value={values.trainerId}
-        options={trainers}
-        onChange={(trainerId) => onChange({ ...values, trainerId })}
-        required
-      />
+      {showTrainerSelect ? (
+        <SearchableSelect
+          id={`${idPrefix}-trainer`}
+          label="Select Trainer"
+          placeholder="Select trainer"
+          searchPlaceholder="Search trainer..."
+          value={values.trainerId}
+          options={trainers}
+          onChange={(trainerId) => onChange({ ...values, trainerId })}
+          required
+        />
+      ) : null}
       <div className="flex items-end justify-end md:col-span-2">
         <div className="flex w-full flex-col items-end gap-2">
           {error ? <p className="text-sm text-red-600">{error}</p> : null}

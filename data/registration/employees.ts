@@ -25,6 +25,31 @@ export async function listEmployees(params?: {
   return paginateItems(filtered, params?.page ?? 1, params?.pageSize ?? 10);
 }
 
+export async function listEmployeeOptions() {
+  await delay();
+  return employees
+    .filter((item) => item.status === "active")
+    .map((item) => ({
+      id: item.id,
+      label: `${employeeFullName(item)} (${item.employeeNo})`,
+    }));
+}
+
+export async function listEmployeeOptionsByDepartment(departmentId: string) {
+  await delay();
+  return employees
+    .filter(
+      (item) =>
+        item.departmentId === departmentId && item.status === "active",
+    )
+    .map((item) => ({
+      id: item.id,
+      label: `${employeeFullName(item)} (${item.employeeNo})`,
+      employeeNo: item.employeeNo,
+      name: employeeFullName(item),
+    }));
+}
+
 export async function updateEmployee(
   id: string,
   input: EmployeeRegistrationInput,

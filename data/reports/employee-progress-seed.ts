@@ -1,0 +1,75 @@
+import type { EmployeeProgressRow } from "@/data/reports/employee-progress-types";
+
+export const EMPLOYEE_PROGRESS_SEED: EmployeeProgressRow[] = [
+  {
+    id: "ep-1",
+    employeeId: "EMP-001",
+    employeeNo: "1001",
+    employeeName: "Ahmed Khan",
+    trainingId: "1",
+    subTrainingId: "s1",
+    subTrainingName: "Workplace Hazards",
+    months: {
+      "2026-01": { totalAssigned: 4, assignment: 3, timeDependant: 1 },
+      "2026-02": { totalAssigned: 2, assignment: 2, timeDependant: 0 },
+      "2026-03": { totalAssigned: 5, assignment: 4, timeDependant: 2 },
+      "2026-04": { totalAssigned: 1, assignment: 1, timeDependant: 0 },
+    },
+  },
+  {
+    id: "ep-2",
+    employeeId: "EMP-002",
+    employeeNo: "1002",
+    employeeName: "Sara Bibi Ali",
+    trainingId: "1",
+    subTrainingId: "s1",
+    subTrainingName: "Workplace Hazards",
+    months: {
+      "2026-01": { totalAssigned: 3, assignment: 2, timeDependant: 1 },
+      "2026-02": { totalAssigned: 3, assignment: 3, timeDependant: 1 },
+      "2026-03": { totalAssigned: 2, assignment: 1, timeDependant: 0 },
+    },
+  },
+  {
+    id: "ep-3",
+    employeeId: "EMP-004",
+    employeeNo: "1004",
+    employeeName: "Fatima Noor",
+    trainingId: "1",
+    subTrainingId: "s2",
+    subTrainingName: "PPE Usage",
+    months: {
+      "2026-01": { totalAssigned: 0, assignment: 0, timeDependant: 0 },
+      "2026-02": { totalAssigned: 6, assignment: 5, timeDependant: 2 },
+      "2026-03": { totalAssigned: 4, assignment: 4, timeDependant: 1 },
+    },
+  },
+  {
+    id: "ep-4",
+    employeeId: "EMP-001",
+    employeeNo: "1001",
+    employeeName: "Ahmed Khan",
+    trainingId: "2",
+    subTrainingId: "s4",
+    subTrainingName: "Extinguisher Types",
+    months: {
+      "2026-01": { totalAssigned: 2, assignment: 1, timeDependant: 0 },
+      "2026-02": { totalAssigned: 0, assignment: 0, timeDependant: 0 },
+      "2026-03": { totalAssigned: 3, assignment: 2, timeDependant: 1 },
+    },
+  },
+  {
+    id: "ep-5",
+    employeeId: "EMP-002",
+    employeeNo: "1002",
+    employeeName: "Sara Bibi Ali",
+    trainingId: "2",
+    subTrainingId: "s5",
+    subTrainingName: "Evacuation Drill",
+    months: {
+      "2026-01": { totalAssigned: 1, assignment: 1, timeDependant: 1 },
+      "2026-02": { totalAssigned: 2, assignment: 2, timeDependant: 0 },
+      "2026-03": { totalAssigned: 0, assignment: 0, timeDependant: 0 },
+    },
+  },
+];

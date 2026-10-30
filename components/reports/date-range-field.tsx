@@ -4,6 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { DayPicker, type DateRange } from "react-day-picker";
 import { FaCalendarDays } from "react-icons/fa6";
 import { applyDateRangeSelect } from "@/components/reports/date-range-select";
+import {
+  DAY_PICKER_COMPONENTS,
+  DAY_PICKER_NAV_RANGE,
+  isCalendarInteractSuppressed,
+  isInsideCalendarUi,
+} from "@/components/ui/day-picker";
 import { Label } from "@/components/ui/label";
 import { formatDate } from "@/lib/datetime";
 import { cn } from "@/lib/utils";
@@ -45,6 +51,8 @@ export function DateRangeField({
 
   useEffect(() => {
     function onPointerDown(event: MouseEvent) {
+      if (isCalendarInteractSuppressed()) return;
+      if (isInsideCalendarUi(event.target)) return;
       if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
     }
     document.addEventListener("mousedown", onPointerDown);
@@ -52,6 +60,7 @@ export function DateRangeField({
   }, []);
 
   function handleSelect(range: DateRange | undefined) {
+    if (isCalendarInteractSuppressed()) return;
     const result = applyDateRangeSelect(range, awaitingEnd.current);
     awaitingEnd.current = result.awaitingEnd;
     onChange(result.value);
@@ -59,7 +68,7 @@ export function DateRangeField({
   }
 
   return (
-    <div className="relative space-y-2" ref={rootRef}>
+    <div className="relative space-y-2" ref={rootRef} data-calendar-root="">
       <Label htmlFor={id}>{label}</Label>
       <button
         type="button"
@@ -68,12 +77,13 @@ export function DateRangeField({
           "flex h-11 w-full cursor-pointer items-center justify-between rounded-md border border-zinc-300 bg-white px-3 text-sm",
           dateFrom && dateTo ? "text-black" : "text-zinc-400",
         )}
-        onClick={() =>
+        onClick={() => {
+          if (isCalendarInteractSuppressed()) return;
           setOpen((current) => {
             if (!current) awaitingEnd.current = Boolean(dateFrom && !dateTo);
             return !current;
-          })
-        }
+          });
+        }}
       >
         <span>{display}</span>
         <FaCalendarDays className="size-3.5 text-[#FFA901]" />
@@ -86,6 +96,10 @@ export function DateRangeField({
             onSelect={handleSelect}
             numberOfMonths={1}
             defaultMonth={selected?.from ?? new Date()}
+            captionLayout="dropdown"
+            navLayout="around"
+            components={DAY_PICKER_COMPONENTS}
+            {...DAY_PICKER_NAV_RANGE}
           />
         </div>
       ) : null}

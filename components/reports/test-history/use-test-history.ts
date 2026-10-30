@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { usePagedList } from "@/components/system-setup/use-paged-list";
+import { getSession, type LoginRole } from "@/data/auth";
 import {
   listTestAttemptHistory,
   listTestOptions,
@@ -25,10 +26,15 @@ const EMPTY: TestHistoryFilter = {
 };
 
 const EMPTY_PAGE = {
-  items: [] as TestAttemptHistory[], total: 0, page: 1, pageSize: 10, totalPages: 1,
+  items: [] as TestAttemptHistory[],
+  total: 0,
+  page: 1,
+  pageSize: 10,
+  totalPages: 1,
 };
 
 export function useTestHistory() {
+  const [role, setRole] = useState<LoginRole | null>(null);
   const [values, setValues] = useState<TestHistoryFilter>(EMPTY);
   const [applied, setApplied] = useState<TestHistoryFilter | null>(null);
   const [trainings, setTrainings] = useState<SelectOption[]>([]);
@@ -37,6 +43,7 @@ export function useTestHistory() {
   const [tests, setTests] = useState<SelectOption[]>([]);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const showTrainerSelect = role !== "trainer";
 
   const listFn = useCallback(
     (params: { search: string; page: number; pageSize: number }) =>
@@ -48,13 +55,20 @@ export function useTestHistory() {
   const list = usePagedList<TestAttemptHistory>(listFn);
 
   useEffect(() => {
-    void Promise.all([listTrainingOptions(), listTrainerOptions()]).then(
-      ([trainingOptions, trainerOptions]) => {
-        setTrainings(trainingOptions);
-        setTrainers(trainerOptions);
-      },
-    );
+    void getSession().then((session) => setRole(session?.role ?? null));
   }, []);
+
+  useEffect(() => {
+    void listTrainingOptions().then(setTrainings);
+  }, []);
+
+  useEffect(() => {
+    if (!showTrainerSelect) {
+      setTrainers([]);
+      return;
+    }
+    void listTrainerOptions().then(setTrainers);
+  }, [showTrainerSelect]);
 
   useEffect(() => {
     if (!values.trainingId) return setSubTrainings([]);
@@ -71,9 +85,9 @@ export function useTestHistory() {
       !values.dateFrom ||
       !values.dateTo ||
       !values.trainingId ||
-      !values.trainerId ||
       !values.subTrainingId ||
-      !values.testId
+      !values.testId ||
+      (showTrainerSelect && !values.trainerId)
     ) {
       setError("Please fill all fields.");
       return;
@@ -84,16 +98,35 @@ export function useTestHistory() {
     }
     setPending(true);
     setError(null);
-    setApplied({ ...values });
+    setApplied({
+      ...values,
+      trainerId: showTrainerSelect ? values.trainerId : "",
+    });
     setPending(false);
   }
 
   function getExportRows() {
     if (!applied) return Promise.resolve([]);
     return listTestAttemptHistory({
-      filter: applied, search: list.search, page: 1, pageSize: 10000,
+      filter: applied,
+      search: list.search,
+      page: 1,
+      pageSize: 10000,
     }).then((result) => result.items);
   }
 
-  return { values, setValues, trainings, trainers, subTrainings, tests, pending, error, list, handleShowReport, getExportRows };
+  return {
+    values,
+    setValues,
+    trainings,
+    trainers,
+    subTrainings,
+    tests,
+    showTrainerSelect,
+    pending,
+    error,
+    list,
+    handleShowReport,
+    getExportRows,
+  };
 }

@@ -13,6 +13,7 @@ export function TestHistoryModule() {
     trainers,
     subTrainings,
     tests,
+    showTrainerSelect,
     pending,
     error,
     list,
@@ -33,6 +34,7 @@ export function TestHistoryModule() {
           trainers={trainers}
           subTrainings={subTrainings}
           tests={tests}
+          showTrainerSelect={showTrainerSelect}
           pending={pending}
           error={error}
           onChange={setValues}

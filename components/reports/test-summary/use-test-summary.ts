@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { usePagedList } from "@/components/system-setup/use-paged-list";
+import { getSession, type LoginRole } from "@/data/auth";
 import { listTestAttemptSummary } from "@/data/reports/test-summary";
 import type {
   TestAttemptSummary,
@@ -29,6 +30,7 @@ const EMPTY_PAGE = {
 };
 
 export function useTestSummary() {
+  const [role, setRole] = useState<LoginRole | null>(null);
   const [values, setValues] = useState<TestSummaryFilter>(EMPTY);
   const [applied, setApplied] = useState<TestSummaryFilter | null>(null);
   const [trainings, setTrainings] = useState<SelectOption[]>([]);
@@ -36,6 +38,7 @@ export function useTestSummary() {
   const [trainers, setTrainers] = useState<SelectOption[]>([]);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const showTrainerSelect = role !== "trainer";
 
   const listFn = useCallback(
     async (params: { search: string; page: number; pageSize: number }) => {
@@ -47,13 +50,20 @@ export function useTestSummary() {
   const list = usePagedList<TestAttemptSummary>(listFn);
 
   useEffect(() => {
-    void Promise.all([listTrainingOptions(), listTrainerOptions()]).then(
-      ([trainingOptions, trainerOptions]) => {
-        setTrainings(trainingOptions);
-        setTrainers(trainerOptions);
-      },
-    );
+    void getSession().then((session) => setRole(session?.role ?? null));
   }, []);
+
+  useEffect(() => {
+    void listTrainingOptions().then(setTrainings);
+  }, []);
+
+  useEffect(() => {
+    if (!showTrainerSelect) {
+      setTrainers([]);
+      return;
+    }
+    void listTrainerOptions().then(setTrainers);
+  }, [showTrainerSelect]);
 
   useEffect(() => {
     if (!values.trainingId) {
@@ -69,7 +79,7 @@ export function useTestSummary() {
       !values.dateTo ||
       !values.trainingId ||
       !values.subTrainingId ||
-      !values.trainerId
+      (showTrainerSelect && !values.trainerId)
     ) {
       setError("Please fill all fields.");
       return;
@@ -80,7 +90,10 @@ export function useTestSummary() {
     }
     setPending(true);
     setError(null);
-    setApplied({ ...values });
+    setApplied({
+      ...values,
+      trainerId: showTrainerSelect ? values.trainerId : "",
+    });
     setPending(false);
   }
 
@@ -94,5 +107,17 @@ export function useTestSummary() {
     }).then((result) => result.items);
   }
 
-  return { values, setValues, trainings, subTrainings, trainers, pending, error, list, handleShowReport, getExportRows };
+  return {
+    values,
+    setValues,
+    trainings,
+    subTrainings,
+    trainers,
+    showTrainerSelect,
+    pending,
+    error,
+    list,
+    handleShowReport,
+    getExportRows,
+  };
 }

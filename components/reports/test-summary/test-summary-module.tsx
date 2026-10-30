@@ -12,6 +12,7 @@ export function TestSummaryModule() {
     trainings,
     subTrainings,
     trainers,
+    showTrainerSelect,
     pending,
     error,
     list,
@@ -31,6 +32,7 @@ export function TestSummaryModule() {
           trainings={trainings}
           subTrainings={subTrainings}
           trainers={trainers}
+          showTrainerSelect={showTrainerSelect}
           pending={pending}
           error={error}
           onChange={setValues}

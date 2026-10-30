@@ -13,6 +13,7 @@ type DateTimeFieldProps = {
   label: string;
   value: string;
   minValue?: string;
+  disablePast?: boolean;
   onChange: (value: string) => void;
   required?: boolean;
 };
@@ -22,6 +23,7 @@ export function DateTimeField({
   label,
   value,
   minValue,
+  disablePast,
   onChange,
   required,
 }: DateTimeFieldProps) {
@@ -38,15 +40,32 @@ export function DateTimeField({
     return () => document.removeEventListener("mousedown", onPointerDown);
   }, []);
 
+  function resolveMin() {
+    if (disablePast) return new Date();
+    if (minValue) return new Date(minValue);
+    return null;
+  }
+
+  function emit(next: Date) {
+    const min = resolveMin();
+    if (min && next < min) {
+      onChange(toIso(min));
+      return;
+    }
+    onChange(toIso(next));
+  }
+
   function selectDay(day: Date) {
     const base = selected ?? new Date();
-    onChange(toIso(applyTime(day, base.getHours(), base.getMinutes())));
+    emit(applyTime(day, base.getHours(), base.getMinutes()));
   }
 
   function selectTime(hours: number, minutes: number) {
     const base = selected ?? new Date();
-    onChange(toIso(applyTime(base, hours, minutes)));
+    emit(applyTime(base, hours, minutes));
   }
+
+  const minDate = resolveMin() ?? undefined;
 
   return (
     <div className="relative space-y-2" ref={rootRef}>
@@ -68,7 +87,7 @@ export function DateTimeField({
           <DateTimeCalendar
             cursor={cursor}
             selected={selected}
-            minDate={minValue ? new Date(minValue) : undefined}
+            minDate={minDate}
             onCursorChange={setCursor}
             onSelectDay={selectDay}
           />
