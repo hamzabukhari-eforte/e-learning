@@ -33,7 +33,16 @@ export default async function CoursesPage() {
 // ❌ component that fetch()es its own data
 ```
 
-## Folder sketch
+## Monorepo
+
+```
+apps/client/   # tenant app (admin | trainer | employee)
+apps/admin/    # super-admin app (separate login/deploy)
+```
+
+Paths below are relative to each app (`apps/client` or `apps/admin`).
+
+## Folder sketch (per app)
 
 ```
 app/           # routes/pages only — thin composition

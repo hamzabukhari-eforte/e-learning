@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# E-Learning Monorepo
 
-## Getting Started
+pnpm workspace with two independently deployable Next.js apps.
 
-First, run the development server:
+| App | Package | Port | Purpose |
+|-----|---------|------|---------|
+| **Client** | `@e-learning/client` | 3000 | Tenant app (`admin` \| `trainer` \| `employee`) |
+| **Admin** | `@e-learning/admin` | 3001 | Super-admin console (separate login) |
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+apps/
+  client/   # existing product
+  admin/    # dashboard, manage domain, user management
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Prerequisites
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Node.js (see `.nvmrc`)
+- [pnpm](https://pnpm.io) 9+
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+corepack enable
+corepack prepare pnpm@9.15.0 --activate
+```
 
-## Learn More
+## Setup
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Develop
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm dev              # both apps
+pnpm dev:client       # http://localhost:3000
+pnpm dev:admin        # http://localhost:3001
+```
 
-## Deploy on Vercel
+## Build / deploy separately
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm build:client
+pnpm build:admin
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Point each host project at `apps/client` or `apps/admin` (same git repo, different root directories / build filters).
+
+## Super Admin (admin app)
+
+Mock login accepts any non-empty user ID + password. Session key: `elearning.admin.session` (separate from the client app).
+
+Screens:
+
+- **Dashboard** — domain / user overview
+- **Manage Domain** — create / edit / delete client domains
+- **Manage Users** — create admin, trainer, and employee users
